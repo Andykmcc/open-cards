@@ -14,7 +14,7 @@
             layers = $el.children('div');
 
         
-        $el.addClass('cards-container '+opendirection).on( activate, methods.toggle ).css({'z-index': ++i*100 });
+        $el.addClass('cards-container '+opendirection).on( activate, methods.toggle ).css({'z-index': ++i*100 }).data('org-zindex', ++i*100);
 
         layers.each(function(i, layer){
           if( i === 0){
@@ -31,14 +31,14 @@
     },
     toggle : function(){
       var $this = $(this),
-          zindex = $this.css('z-index');
+          zindex = $this.data('org-zindex');
 
       if( $this.hasClass('cards-open')){
-        $this.removeClass('cards-open').css({ 'z-index' : zindex/1000});
+        $this.removeClass('cards-open').css( { 'z-index' : zindex } );
         $this.trigger('cards-close');
       }
       else{
-        $this.addClass('cards-open').css({ 'z-index' : zindex*1000});
+        $this.addClass('cards-open').css( { 'z-index' : zindex*100 } );
         $this.trigger('cards-open');
       }
     }
