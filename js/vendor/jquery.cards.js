@@ -2,7 +2,9 @@
 
   methods = {
     init : function( options ) {
-      var docwidth = document.width || window.width - 15;
+      var docwidth = document.width || window.width - 15,
+          activate = options ? options.activate : 'mouseenter mouseleave';
+
       return this.each(function(i, el){
         var $el = $(el),
             elWidth = $el.width(),
@@ -10,8 +12,9 @@
             isRight = elLeft + (2 * elWidth) < docwidth ? 1 : 0,
             opendirection = isRight ? 'cards-openRight' : 'cards-openLeft',
             layers = $el.children('div');
+
         
-        $el.addClass('cards-container '+opendirection);
+        $el.addClass('cards-container '+opendirection).on( activate, methods.toggle ).css({'z-index': ++i*100 });
 
         layers.each(function(i, layer){
           if( i === 0){
@@ -26,6 +29,19 @@
         });
       });
     },
+    toggle : function(){
+      var $this = $(this),
+          zindex = $this.css('z-index');
+
+      if( $this.hasClass('cards-open')){
+        $this.removeClass('cards-open').css({ 'z-index' : zindex/1000});
+        $this.trigger('cards-close');
+      }
+      else{
+        $this.addClass('cards-open').css({ 'z-index' : zindex*1000});
+        $this.trigger('cards-open');
+      }
+    }
   };
 
   $.fn.cards = function( method ) {

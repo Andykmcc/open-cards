@@ -64,7 +64,9 @@ textarea {
     width: 400px;
     height: 400px;
 }
-
+.inside-cover{
+    background-color: red;
+}
 
 
 
